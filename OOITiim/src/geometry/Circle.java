@@ -6,6 +6,7 @@ public class Circle {
 	private int r;
 	private boolean selected;
 	
+	//moj komentar test
 	public Circle() {
 
 	}
