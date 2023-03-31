@@ -1,12 +1,12 @@
 package geometry;
+import java.awt.Graphics;
 
-public class Circle {
+public class Circle extends Shape{
 	
-	private Point center;
+	protected Point center;
 	private int r;
-	private boolean selected;
 	
-	//moj komentar test
+	
 	public Circle() {
 
 	}
@@ -29,6 +29,10 @@ public class Circle {
 		return r * r * Math.PI;
 	}
 	
+	public boolean contains(int x, int y) {
+		return center.distance(x, y) <= r;
+	}
+	
 	@Override
 	public String toString() {
 		return "Center: " + center + ", radius: " + r;
@@ -44,6 +48,14 @@ public class Circle {
 		}
 		return false;
 	}
+	
+	//dodato
+	@Override
+	public void draw(Graphics g) {
+		g.drawOval(center.getX()-r, center.getY()-r,
+					r*2, r*2);
+	}
+	
 	
 	public Point getCenter() {
 		return center;

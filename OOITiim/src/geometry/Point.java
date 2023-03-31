@@ -1,9 +1,8 @@
 package geometry;
-
-public class Point {
+import java.awt.Graphics;
+public class Point extends Shape {
 	private int x;
 	private int y;
-	private boolean selected;
 
 	public Point() {
 		
@@ -25,6 +24,20 @@ public class Point {
 		int dY = this.y - y;
 		double d = Math.sqrt(dX*dX + dY*dY);
 		return d;
+	}
+	//ovo
+	@Override
+	public void draw(Graphics g) {
+		g.drawLine(x + 2, y, x - 2, y);
+		g.drawLine(x, y + 2, x, y - 2);
+	}
+
+	public boolean contains(int x, int y) {
+		return distance(x, y) <= 2;
+	}
+
+	public boolean contains(Point p) {
+		return contains(p.getX(), p.getY());
 	}
 	
 	@Override

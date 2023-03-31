@@ -1,11 +1,11 @@
 package geometry;
-
+import java.awt.Graphics;
 public class Donut extends Circle {
 	
 	private int innerR;
 	
 	public Donut() {
-		
+		super();
 	}
 	
 	public Donut(Point center, int r, int innerR) {
@@ -42,6 +42,23 @@ public class Donut extends Circle {
 			}
 		}
 		return false;
+	}
+	
+	@Override
+	public boolean contains(int x, int y) {
+		return super.contains(x, y) &&
+				this.center.distance(x, y)>=innerR;
+	}
+	
+	@Override
+	public void draw(Graphics g) {
+		super.draw(g);
+		g.drawOval(center.getX()-innerR, center.getY()-innerR,
+				innerR*2, innerR*2);
+	}
+	
+	public boolean contains(Point p) {
+		return contains(p.getX(),p.getY());
 	}
 
 	public int getInnerR() {

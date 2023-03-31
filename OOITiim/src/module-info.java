@@ -6,4 +6,5 @@
  *
  */
 module OOITiim {
+	requires java.desktop;
 }

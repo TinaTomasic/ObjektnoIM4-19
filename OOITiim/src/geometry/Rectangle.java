@@ -1,11 +1,11 @@
 package geometry;
-
-public class Rectangle {
+import java.awt.Graphics;
+public class Rectangle extends Shape {
 	
 	public Point upperLeft;
 	public int width;
 	public int height;
-	public boolean selected;
+	
 	
 	public Rectangle() {
 
@@ -28,6 +28,28 @@ public class Rectangle {
 	
 	public int area() {
 		return width * height;
+	}
+	
+	public boolean contains(int x, int y) {
+		return (upperLeft.getX() <= x && upperLeft.getX()+width >= x
+				&& upperLeft.getY() <= y && upperLeft.getY()+height >= y);
+	}
+	
+	public boolean contains(Point p) {
+		return contains(p.getX(), p.getY());
+	}
+	
+	@Override
+	public void draw(Graphics g) {
+		if(!selected) {
+			g.drawRect(upperLeft.getX(), upperLeft.getY(), width, height);
+		}else {
+			g.drawRect(upperLeft.getX() - 3, upperLeft.getY() - 3, 6, 6);
+			g.drawRect(upperLeft.getX() + width - 3, upperLeft.getY() - 3, 6, 6);
+			g.drawRect(upperLeft.getX() - 3, upperLeft.getY() + height - 3, 6, 6);
+			g.drawRect(upperLeft.getX() + width - 3, upperLeft.getY() + height - 3, 6, 6);
+			g.drawRect(upperLeft.getX(), upperLeft.getY(), width, height);
+		}
 	}
 	
 	@Override
