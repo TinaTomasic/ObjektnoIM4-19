@@ -11,6 +11,7 @@ import javax.swing.JToolBar;
 import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
+import dialog.DlgCircle;
 import dialog.DlgRectangle;
 
 import javax.swing.ButtonGroup;
@@ -24,8 +25,9 @@ public class DrawingFrame extends JFrame {
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JToggleButton btnLine;
 	private int counter = 0;
-	private Point startPoint, endPoint, upperLeft;
+	private Point startPoint, endPoint, upperLeft, center;
 	private JToggleButton btnRectangle;
+	private JToggleButton btnCircle;
 	
 
 	public DrawingFrame() {
@@ -55,6 +57,13 @@ public class DrawingFrame extends JFrame {
 		btnRectangle.setBounds(184, 490, 98, 23);
 		buttonGroup.add(btnRectangle);
 		contentPane.add(btnRectangle);
+		
+		btnCircle = new JToggleButton("Circle");
+		btnCircle.setBounds(292, 490, 123, 23);
+		buttonGroup.add(btnCircle);
+		contentPane.add(btnCircle);
+		
+		
 		
 		drawingPanel.addMouseListener(new MouseAdapter() {
 			@Override
@@ -86,6 +95,18 @@ public class DrawingFrame extends JFrame {
 						repaint();
 						
 					}
+				}else if (btnCircle.isSelected()) {
+					center = new Point(e.getX(),e.getY());
+					DlgCircle dlgCircle = new DlgCircle();
+					dlgCircle.setVisible(true);
+					if(dlgCircle.isCommited()) {
+						int r = Integer.parseInt(dlgCircle.getRField().getText());
+						Circle c = new Circle(center, r);
+						drawingPanel.getShapes().add(c);
+						repaint();
+						
+					}
+					
 				}
 			}
 		});
