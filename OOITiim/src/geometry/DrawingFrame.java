@@ -49,19 +49,24 @@ public class DrawingFrame extends JFrame {
 		drawingPanel.setLayout(null);
 		
 		btnLine = new JToggleButton("Line");
-		btnLine.setBounds(92, 490, 82, 23);
+		btnLine.setBounds(81, 490, 82, 23);
 		buttonGroup.add(btnLine);
 		contentPane.add(btnLine);
 		
 		btnRectangle = new JToggleButton("Rectangle");
-		btnRectangle.setBounds(184, 490, 98, 23);
+		btnRectangle.setBounds(162, 490, 98, 23);
 		buttonGroup.add(btnRectangle);
 		contentPane.add(btnRectangle);
 		
 		btnCircle = new JToggleButton("Circle");
-		btnCircle.setBounds(292, 490, 123, 23);
+		btnCircle.setBounds(257, 490, 123, 23);
 		buttonGroup.add(btnCircle);
 		contentPane.add(btnCircle);
+		
+		JToggleButton btnDonut = new JToggleButton("Donut");
+		btnDonut.setBounds(380, 490, 123, 23);
+		buttonGroup.add(btnDonut);
+		contentPane.add(btnDonut);
 		
 		
 		
@@ -104,10 +109,9 @@ public class DrawingFrame extends JFrame {
 						Circle c = new Circle(center, r);
 						drawingPanel.getShapes().add(c);
 						repaint();
-						
 					}
 					
-				}
+				} 
 			}
 		});
 	}
