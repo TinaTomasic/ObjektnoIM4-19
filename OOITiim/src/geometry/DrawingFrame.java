@@ -12,22 +12,32 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import dialog.DlgCircle;
+import dialog.DlgDonut;
 import dialog.DlgRectangle;
 
 import javax.swing.ButtonGroup;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.awt.event.ActionListener;
+import java.awt.event.ActionEvent;
 
 public class DrawingFrame extends JFrame {
 
 	private JPanel contentPane;
 	private Drawing drawingPanel;
+	private ArrayList<Shape> slctd = new ArrayList<Shape>();
+	private DrawingPanel dpanel = new DrawingPanel();
+	private boolean selected;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JToggleButton btnLine;
 	private int counter = 0;
 	private Point startPoint, endPoint, upperLeft, center;
 	private JToggleButton btnRectangle;
 	private JToggleButton btnCircle;
+	private JToggleButton btnColor;
+	private JToggleButton btnSelect;
+
 	
 
 	public DrawingFrame() {
@@ -54,19 +64,28 @@ public class DrawingFrame extends JFrame {
 		contentPane.add(btnLine);
 		
 		btnRectangle = new JToggleButton("Rectangle");
-		btnRectangle.setBounds(162, 490, 98, 23);
+		btnRectangle.setBounds(162, 490, 82, 23);
 		buttonGroup.add(btnRectangle);
 		contentPane.add(btnRectangle);
 		
 		btnCircle = new JToggleButton("Circle");
-		btnCircle.setBounds(257, 490, 123, 23);
+		btnCircle.setBounds(242, 490, 82, 23);
 		buttonGroup.add(btnCircle);
 		contentPane.add(btnCircle);
 		
 		JToggleButton btnDonut = new JToggleButton("Donut");
-		btnDonut.setBounds(380, 490, 123, 23);
+		btnDonut.setBounds(323, 490, 82, 23);
 		buttonGroup.add(btnDonut);
 		contentPane.add(btnDonut);
+		
+		btnColor = new JToggleButton("Color");
+		btnColor.setBounds(404, 490, 82, 23);
+		contentPane.add(btnColor);
+		buttonGroup.add(btnColor);
+		
+		btnSelect = new JToggleButton("Select");
+		btnSelect.setBounds(485, 490, 82, 23);
+		contentPane.add(btnSelect);
 		
 		
 		
@@ -111,7 +130,83 @@ public class DrawingFrame extends JFrame {
 						repaint();
 					}
 					
-				} 
+				}else if (btnDonut.isSelected()){
+					center = new Point(e.getX(),e.getY());
+					DlgDonut dlgDonut = new DlgDonut();
+					dlgDonut.setVisible(true);
+					if(dlgDonut.isCommited()) {
+						int innerR = Integer.parseInt(dlgDonut.getInRField().getText());
+						int r = Integer.parseInt(dlgDonut.getOutRField().getText());
+						Donut d = new Donut(center, r, innerR);
+						drawingPanel.getShapes().add(d);
+						repaint();
+						}
+					} else if(btnSelect.isSelected()){
+						selected(e);
+					}
+				
+			}
+
+			private void selected(MouseEvent e) {
+				for(Shape s : dpanel.getShapes()) {
+					if(s.contains(e.getX(), e.getY())){
+						if(s instanceof Point) {
+							if(!s.isSelected()) {
+								s.setSelected(true);
+								slctd.add(s);
+								repaint();
+							}else {
+								s.setSelected(false);
+								slctd.remove(s);
+								repaint();
+							}
+						} else if(s instanceof Line) {
+							if(!s.isSelected()) {
+								s.setSelected(true);
+								slctd.add(s);
+								repaint();
+							}else {
+								s.setSelected(false);
+								slctd.remove(s);
+								repaint();
+							}
+						}else if(s instanceof Rectangle) {
+							if(!s.isSelected()) {
+								s.setSelected(true);
+								slctd.add(s);
+								repaint();
+							}else {
+								s.setSelected(false);
+								slctd.remove(s);
+								repaint();
+							}
+						}else if(s instanceof Circle) {
+							if(s.getClass() != Circle.class) {
+								if(!s.isSelected()) {
+									s.setSelected(true);
+									slctd.add(s);
+									repaint();
+								}else {
+									s.setSelected(false);
+									slctd.remove(s);
+									repaint();
+								}
+							}else {
+								if(!s.isSelected()) {
+									s.setSelected(true);
+									slctd.add(s);
+									repaint();
+								}else {
+									s.setSelected(false);
+									slctd.remove(s);
+									repaint();
+								}
+							}
+						}
+						
+					}
+				}
+				
 			}
 		});
 	}
