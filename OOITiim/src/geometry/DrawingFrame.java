@@ -16,6 +16,8 @@ import dialog.DlgDonut;
 import dialog.DlgRectangle;
 
 import javax.swing.ButtonGroup;
+import javax.swing.JColorChooser;
+
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.ArrayList;
@@ -27,8 +29,8 @@ public class DrawingFrame extends JFrame {
 	private JPanel contentPane;
 	private Drawing drawingPanel;
 	private ArrayList<Shape> slctd = new ArrayList<Shape>();
-	private DrawingPanel dpanel = new DrawingPanel();
 	private boolean selected;
+	private Color clr;
 	private final ButtonGroup buttonGroup = new ButtonGroup();
 	private JToggleButton btnLine;
 	private int counter = 0;
@@ -42,6 +44,7 @@ public class DrawingFrame extends JFrame {
 
 	public DrawingFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		setResizable(false);
 		setBounds(100, 100, 840, 550);
 		contentPane = new JPanel();
 		drawingPanel = new Drawing();
@@ -79,6 +82,37 @@ public class DrawingFrame extends JFrame {
 		contentPane.add(btnDonut);
 		
 		btnColor = new JToggleButton("Color");
+		btnColor.addActionListener(new ActionListener() {
+			//coloring
+			public void actionPerformed(ActionEvent e) {
+				
+				for(Shape s : slctd) {
+					clr = JColorChooser.showDialog(null, "Choose the color:",Color.BLACK);
+					if(s instanceof Point){
+							repaint();
+							s.setColor(clr);
+							repaint();
+					}else if(s instanceof Line) {
+							repaint();
+							s.setColor(clr);
+							repaint();
+					}else if(s instanceof Rectangle) {
+							repaint();
+							s.setColor(clr);
+							repaint();
+					}else if(s instanceof Circle) {
+						if(s.getClass() != Circle.class) {
+							repaint();
+							s.setColor(clr);
+							repaint();
+						}else {
+							repaint();
+							s.setColor(clr);
+							repaint();
+						}		
+					}}
+			}
+		});
 		btnColor.setBounds(404, 490, 82, 23);
 		contentPane.add(btnColor);
 		buttonGroup.add(btnColor);
@@ -86,9 +120,10 @@ public class DrawingFrame extends JFrame {
 		btnSelect = new JToggleButton("Select");
 		btnSelect.setBounds(485, 490, 82, 23);
 		contentPane.add(btnSelect);
+		buttonGroup.add(btnSelect);
 		
 		
-		
+		//draw
 		drawingPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -146,9 +181,9 @@ public class DrawingFrame extends JFrame {
 					}
 				
 			}
-
+			//selected
 			private void selected(MouseEvent e) {
-				for(Shape s : dpanel.getShapes()) {
+				for(Shape s : drawingPanel.getShapes()) {
 					if(s.contains(e.getX(), e.getY())){
 						if(s instanceof Point) {
 							if(!s.isSelected()) {
