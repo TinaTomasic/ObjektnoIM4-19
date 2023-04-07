@@ -67,17 +67,17 @@ public class DrawingFrame extends JFrame {
 		contentPane.add(btnLine);
 		
 		btnRectangle = new JToggleButton("Rectangle");
-		btnRectangle.setBounds(162, 490, 82, 23);
+		btnRectangle.setBounds(162, 490, 94, 23);
 		buttonGroup.add(btnRectangle);
 		contentPane.add(btnRectangle);
 		
 		btnCircle = new JToggleButton("Circle");
-		btnCircle.setBounds(242, 490, 82, 23);
+		btnCircle.setBounds(253, 490, 82, 23);
 		buttonGroup.add(btnCircle);
 		contentPane.add(btnCircle);
 		
 		JToggleButton btnDonut = new JToggleButton("Donut");
-		btnDonut.setBounds(323, 490, 82, 23);
+		btnDonut.setBounds(334, 490, 82, 23);
 		buttonGroup.add(btnDonut);
 		contentPane.add(btnDonut);
 		
@@ -113,17 +113,27 @@ public class DrawingFrame extends JFrame {
 					}}
 			}
 		});
-		btnColor.setBounds(404, 490, 82, 23);
+		btnColor.setBounds(414, 490, 82, 23);
 		contentPane.add(btnColor);
 		buttonGroup.add(btnColor);
 		
 		btnSelect = new JToggleButton("Select");
-		btnSelect.setBounds(485, 490, 82, 23);
+		btnSelect.setBounds(496, 490, 82, 23);
 		contentPane.add(btnSelect);
 		buttonGroup.add(btnSelect);
 		
+		JToggleButton btnModify = new JToggleButton("Modify");
+		btnModify.setBounds(576, 490, 82, 23);
+		contentPane.add(btnModify);
+		buttonGroup.add(btnModify);
 		
-		//draw
+		JToggleButton btnErase = new JToggleButton("Erase");
+		btnErase.setBounds(656, 490, 94, 23);
+		contentPane.add(btnErase);
+		buttonGroup.add(btnErase);
+		
+		
+		//drawing
 		drawingPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
@@ -181,7 +191,7 @@ public class DrawingFrame extends JFrame {
 					}
 				
 			}
-			//selected
+			//to select
 			private void selected(MouseEvent e) {
 				for(Shape s : drawingPanel.getShapes()) {
 					if(s.contains(e.getX(), e.getY())){
