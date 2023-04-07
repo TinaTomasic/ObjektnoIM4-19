@@ -5,6 +5,7 @@ import java.awt.Color;
 import java.awt.EventQueue;
 
 import javax.swing.JFrame;
+import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JToggleButton;
 import javax.swing.JToolBar;
@@ -128,6 +129,23 @@ public class DrawingFrame extends JFrame {
 		buttonGroup.add(btnModify);
 		
 		JToggleButton btnErase = new JToggleButton("Erase");
+		btnErase.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				if(drawingPanel.getShapes().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "The drawing panel is empty!", "ERROR", JOptionPane.ERROR_MESSAGE);
+					
+				}else if(!drawingPanel.getShapes().isEmpty() && slctd.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "The object that you want to erase isn't selected.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else{
+					if(JOptionPane.showConfirmDialog(null, "Do you want to erase the selected object?", "ERASE",
+							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
+							drawingPanel.getShapes().removeAll(slctd);
+							slctd.clear();
+							repaint();	
+					}
+				}
+			}
+		});
 		btnErase.setBounds(656, 490, 94, 23);
 		contentPane.add(btnErase);
 		buttonGroup.add(btnErase);
