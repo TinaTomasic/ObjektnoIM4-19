@@ -277,7 +277,7 @@ public class DrawingFrame extends JFrame {
 				}
 				
 			}
-			//to select
+			
 			
 		});
 		

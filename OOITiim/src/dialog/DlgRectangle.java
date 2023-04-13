@@ -9,6 +9,8 @@ import javax.swing.JPanel;
 import javax.swing.border.EmptyBorder;
 import java.awt.GridBagLayout;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
+
 import java.awt.GridBagConstraints;
 import java.awt.Insets;
 import javax.swing.JTextField;
@@ -107,8 +109,17 @@ public class DlgRectangle extends JDialog {
 				JButton cancelButton = new JButton("Cancel");
 				cancelButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						setCommited(false);
-						dispose();
+						if(!widthField.getText().isEmpty() && !heightField.getText().isEmpty()) {
+							if(Integer.parseInt(widthField.getText().toString()) > 0 && 
+									Integer.parseInt(heightField.getText().toString()) > 0) {
+								setCommited(true);
+								dispose();
+							}else {
+								JOptionPane.showMessageDialog(null, "You have to enter values greather than 0!", "ERROR", JOptionPane.ERROR_MESSAGE);
+							}
+						}else {
+							JOptionPane.showMessageDialog(null, "You have to enter all fields!", "ERROR", JOptionPane.ERROR_MESSAGE);
+						}
 					}
 				});
 				cancelButton.setActionCommand("Cancel");
