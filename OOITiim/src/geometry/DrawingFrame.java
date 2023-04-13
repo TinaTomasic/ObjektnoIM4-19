@@ -135,9 +135,9 @@ public class DrawingFrame extends JFrame {
 					JOptionPane.showMessageDialog(null, "The drawing panel is empty!", "ERROR", JOptionPane.ERROR_MESSAGE);
 					
 				}else if(!drawingPanel.getShapes().isEmpty() && slctd.isEmpty()) {
-					JOptionPane.showMessageDialog(null, "The object that you want to erase isn't selected.", "ERROR", JOptionPane.ERROR_MESSAGE);
+					JOptionPane.showMessageDialog(null, "The shape that you want to erase isn't selected.", "ERROR", JOptionPane.ERROR_MESSAGE);
 				}else{
-					if(JOptionPane.showConfirmDialog(null, "Do you want to erase the selected object?", "ERASE",
+					if(JOptionPane.showConfirmDialog(null, "Are you sure you want to erase the selected shape?", "ERASE",
 							JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE) == JOptionPane.YES_OPTION){
 							drawingPanel.getShapes().removeAll(slctd);
 							slctd.clear();
@@ -151,11 +151,78 @@ public class DrawingFrame extends JFrame {
 		buttonGroup.add(btnErase);
 		
 		
-		//drawing
+		
 		drawingPanel.addMouseListener(new MouseAdapter() {
 			@Override
 			public void mouseClicked(MouseEvent e) {
-				if(btnPoint.isSelected()) {
+			
+				//to select
+				if (btnSelect.isSelected()) {
+					for(Shape s : drawingPanel.getShapes()) {
+						if(s.contains(e.getX(), e.getY())){
+							if(s instanceof Point) {
+								if(!s.isSelected()) {
+									s.setSelected(true);
+									slctd.add(s);
+									repaint();
+								}else {
+									s.setSelected(false);
+									slctd.remove(s);
+									repaint();
+								}
+							} else if(s instanceof Line) {
+								if(!s.isSelected()) {
+									s.setSelected(true);
+									slctd.add(s);
+									repaint();
+								}else {
+									s.setSelected(false);
+									slctd.remove(s);
+									repaint();
+								}
+							}else if(s instanceof Rectangle) {
+								if(!s.isSelected()) {
+									s.setSelected(true);
+									slctd.add(s);
+									repaint();
+								}else {
+									s.setSelected(false);
+									slctd.remove(s);
+									repaint();
+								}
+							}else if(s instanceof Circle) {
+								if(s.getClass() != Circle.class) {
+									if(!s.isSelected()) { //donut
+										s.setSelected(true);
+										slctd.add(s);
+										repaint();
+									}else {
+										s.setSelected(false);
+										slctd.remove(s);
+										repaint();
+									}
+								}else {
+									if(!s.isSelected()) { //circle
+										s.setSelected(true);
+										slctd.add(s);
+										repaint();
+									}else {
+										s.setSelected(false);
+										slctd.remove(s);
+										repaint();
+									}
+								}
+							}
+							
+						}
+					}
+					
+				
+					
+				
+					//drawing	
+				
+		 } else if(btnPoint.isSelected()) {
 					Point p = new Point(e.getX(),e.getY());
 					drawingPanel.getShapes().add(p);
 					repaint();
@@ -174,6 +241,7 @@ public class DrawingFrame extends JFrame {
 					upperLeft = new Point(e.getX(),e.getY());
 					DlgRectangle dlgRectangle = new DlgRectangle();
 					dlgRectangle.setVisible(true);
+					
 					if(dlgRectangle.isCommited()) {
 						int width = Integer.parseInt(dlgRectangle.getWidthField().getText());
 						int height = Integer.parseInt(dlgRectangle.getHeightField().getText());
@@ -186,6 +254,7 @@ public class DrawingFrame extends JFrame {
 					center = new Point(e.getX(),e.getY());
 					DlgCircle dlgCircle = new DlgCircle();
 					dlgCircle.setVisible(true);
+					
 					if(dlgCircle.isCommited()) {
 						int r = Integer.parseInt(dlgCircle.getRField().getText());
 						Circle c = new Circle(center, r);
@@ -197,6 +266,7 @@ public class DrawingFrame extends JFrame {
 					center = new Point(e.getX(),e.getY());
 					DlgDonut dlgDonut = new DlgDonut();
 					dlgDonut.setVisible(true);
+					
 					if(dlgDonut.isCommited()) {
 						int innerR = Integer.parseInt(dlgDonut.getInRField().getText());
 						int r = Integer.parseInt(dlgDonut.getOutRField().getText());
@@ -204,75 +274,28 @@ public class DrawingFrame extends JFrame {
 						drawingPanel.getShapes().add(d);
 						repaint();
 						}
-					} else if(btnSelect.isSelected()){
-						selected(e);
-					}
-				
-			}
-			//to select
-			private void selected(MouseEvent e) {
-				for(Shape s : drawingPanel.getShapes()) {
-					if(s.contains(e.getX(), e.getY())){
-						if(s instanceof Point) {
-							if(!s.isSelected()) {
-								s.setSelected(true);
-								slctd.add(s);
-								repaint();
-							}else {
-								s.setSelected(false);
-								slctd.remove(s);
-								repaint();
-							}
-						} else if(s instanceof Line) {
-							if(!s.isSelected()) {
-								s.setSelected(true);
-								slctd.add(s);
-								repaint();
-							}else {
-								s.setSelected(false);
-								slctd.remove(s);
-								repaint();
-							}
-						}else if(s instanceof Rectangle) {
-							if(!s.isSelected()) {
-								s.setSelected(true);
-								slctd.add(s);
-								repaint();
-							}else {
-								s.setSelected(false);
-								slctd.remove(s);
-								repaint();
-							}
-						}else if(s instanceof Circle) {
-							if(s.getClass() != Circle.class) {
-								if(!s.isSelected()) {
-									s.setSelected(true);
-									slctd.add(s);
-									repaint();
-								}else {
-									s.setSelected(false);
-									slctd.remove(s);
-									repaint();
-								}
-							}else {
-								if(!s.isSelected()) {
-									s.setSelected(true);
-									slctd.add(s);
-									repaint();
-								}else {
-									s.setSelected(false);
-									slctd.remove(s);
-									repaint();
-								}
-							}
-						}
-						
-					}
 				}
 				
 			}
+			//to select
+			
 		});
+		
+	}			
+
+
+
+	public boolean isSelected() {
+		return selected;
 	}
+
+
+
+	public void setSelected(boolean selected) {
+		this.selected = selected;
+	}
+
+
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {
@@ -286,4 +309,4 @@ public class DrawingFrame extends JFrame {
 			}
 		});
 	}
-}
+		}
