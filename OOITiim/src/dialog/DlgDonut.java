@@ -43,6 +43,7 @@ public class DlgDonut extends JDialog {
 	public DlgDonut() {
 		setBounds(100, 100, 450, 300);
 		setModal(true);
+		setTitle("Donut");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setLayout(new FlowLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));

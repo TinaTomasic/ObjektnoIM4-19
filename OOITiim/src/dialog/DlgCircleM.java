@@ -44,6 +44,7 @@ public class DlgCircleM extends JDialog {
 	public DlgCircleM() {
 		setBounds(100, 100, 450, 300);
 		setModal(true);
+		setTitle("Modification for cicle");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);

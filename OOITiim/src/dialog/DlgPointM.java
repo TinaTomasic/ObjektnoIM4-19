@@ -12,23 +12,24 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 
 import java.awt.GridBagConstraints;
-import java.awt.Insets;
 import javax.swing.JTextField;
+import java.awt.Insets;
 import java.awt.event.ActionListener;
 import java.awt.event.ActionEvent;
 
-public class DlgCircle extends JDialog {
+public class DlgPointM extends JDialog {
 
 	private final JPanel contentPanel = new JPanel();
-	private JTextField rField;
 	private boolean commited;
+	private JTextField xField;
+	private JTextField yField;
 
 	/**
 	 * Launch the application.
 	 */
 	public static void main(String[] args) {
 		try {
-			DlgCircle dialog = new DlgCircle();
+			DlgPointM dialog = new DlgPointM();
 			dialog.setDefaultCloseOperation(JDialog.DISPOSE_ON_CLOSE);
 			dialog.setVisible(true);
 		} catch (Exception e) {
@@ -39,42 +40,55 @@ public class DlgCircle extends JDialog {
 	/**
 	 * Create the dialog.
 	 */
-	public DlgCircle() {
+	public DlgPointM() {
 		setBounds(100, 100, 450, 300);
 		setModal(true);
-		setTitle("Circle");
+		setTitle("Modification for point");
 		getContentPane().setLayout(new BorderLayout());
 		contentPanel.setBorder(new EmptyBorder(5, 5, 5, 5));
 		getContentPane().add(contentPanel, BorderLayout.CENTER);
 		GridBagLayout gbl_contentPanel = new GridBagLayout();
-		gbl_contentPanel.columnWidths = new int[]{0, 0};
+		gbl_contentPanel.columnWidths = new int[]{0, 0, 0};
 		gbl_contentPanel.rowHeights = new int[]{0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0};
+		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
 		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, Double.MIN_VALUE};
 		contentPanel.setLayout(gbl_contentPanel);
-		gbl_contentPanel.columnWidths = new int[]{0, 0, 0};
-		gbl_contentPanel.rowHeights = new int[]{0, 0, 0, 0};
-		gbl_contentPanel.columnWeights = new double[]{0.0, 1.0, Double.MIN_VALUE};
-		gbl_contentPanel.rowWeights = new double[]{0.0, 0.0, 0.0, Double.MIN_VALUE};
-
 		{
-			JLabel lblR = new JLabel("radius:");
-			GridBagConstraints gbc_lblR = new GridBagConstraints();
-			gbc_lblR.anchor = GridBagConstraints.EAST;
-			gbc_lblR.insets = new Insets(0, 0, 5, 5);
-			gbc_lblR.gridx = 0;
-			gbc_lblR.gridy = 1;
-			contentPanel.add(lblR, gbc_lblR);
+			JLabel lblX = new JLabel("coordinate X:");
+			GridBagConstraints gbc_lblX = new GridBagConstraints();
+			gbc_lblX.insets = new Insets(0, 0, 5, 5);
+			gbc_lblX.anchor = GridBagConstraints.EAST;
+			gbc_lblX.gridx = 0;
+			gbc_lblX.gridy = 0;
+			contentPanel.add(lblX, gbc_lblX);
 		}
 		{
-			rField = new JTextField();
-			GridBagConstraints gbc_rField = new GridBagConstraints();
-			gbc_rField.insets = new Insets(0, 0, 5, 0);
-			gbc_rField.fill = GridBagConstraints.HORIZONTAL;
-			gbc_rField.gridx = 1;
-			gbc_rField.gridy = 1;
-			contentPanel.add(rField, gbc_rField);
-			rField.setColumns(10);
+			xField = new JTextField();
+			GridBagConstraints gbc_xField = new GridBagConstraints();
+			gbc_xField.insets = new Insets(0, 0, 5, 0);
+			gbc_xField.fill = GridBagConstraints.HORIZONTAL;
+			gbc_xField.gridx = 1;
+			gbc_xField.gridy = 0;
+			contentPanel.add(xField, gbc_xField);
+			xField.setColumns(10);
+		}
+		{
+			JLabel lblY = new JLabel("coordinate Y:");
+			GridBagConstraints gbc_lblY = new GridBagConstraints();
+			gbc_lblY.anchor = GridBagConstraints.EAST;
+			gbc_lblY.insets = new Insets(0, 0, 0, 5);
+			gbc_lblY.gridx = 0;
+			gbc_lblY.gridy = 1;
+			contentPanel.add(lblY, gbc_lblY);
+		}
+		{
+			yField = new JTextField();
+			GridBagConstraints gbc_yField = new GridBagConstraints();
+			gbc_yField.fill = GridBagConstraints.HORIZONTAL;
+			gbc_yField.gridx = 1;
+			gbc_yField.gridy = 1;
+			contentPanel.add(yField, gbc_yField);
+			yField.setColumns(10);
 		}
 		{
 			JPanel buttonPane = new JPanel();
@@ -84,8 +98,8 @@ public class DlgCircle extends JDialog {
 				JButton okButton = new JButton("OK");
 				okButton.addActionListener(new ActionListener() {
 					public void actionPerformed(ActionEvent e) {
-						if(!rField.getText().isEmpty()) {
-							if(Integer.parseInt(rField.getText().toString()) > 0) {
+						if(!xField.getText().isEmpty() && !yField.getText().isEmpty()) {
+							if(Integer.parseInt(xField.getText().toString()) > 0 && Integer.parseInt(yField.getText().toString()) > 0) {
 								setCommited(true);
 								dispose();
 							}else {
@@ -94,6 +108,7 @@ public class DlgCircle extends JDialog {
 						}else {
 							JOptionPane.showMessageDialog(null, "You have to enter all fields!", "ERROR", JOptionPane.ERROR_MESSAGE);
 						}
+						
 					}
 				});
 				okButton.setActionCommand("OK");
@@ -121,9 +136,21 @@ public class DlgCircle extends JDialog {
 	public void setCommited(boolean commited) {
 		this.commited = commited;
 	}
-	
-	public JTextField getRField() {
-		return rField;
+
+	public JTextField getxField() {
+		return xField;
+	}
+
+	public void setxField(JTextField xField) {
+		this.xField = xField;
+	}
+
+	public JTextField getyField() {
+		return yField;
+	}
+
+	public void setyField(JTextField yField) {
+		this.yField = yField;
 	}
 	
 
