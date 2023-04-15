@@ -54,6 +54,12 @@ public class Circle extends Shape{
 	public void draw(Graphics g) {
 		g.drawOval(center.getX()-r, center.getY()-r,
 					r*2, r*2);
+		if(selected) {
+			g.drawRect(center.getX() - r - 3, center.getY() - 3, 6, 6);
+			g.drawRect(center.getX() + r - 3, center.getY() - 3, 6, 6);
+			g.drawRect(center.getX() - 3, center.getY() - r - 3, 6, 6);
+			g.drawRect(center.getX() - 3, center.getY() + r - 3, 6, 6);
+		}
 	}
 	
 	

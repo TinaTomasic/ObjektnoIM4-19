@@ -1,6 +1,7 @@
 package geometry;
 import java.awt.Graphics;
 public class Point extends Shape {
+	
 	private int x;
 	private int y;
 
@@ -25,11 +26,17 @@ public class Point extends Shape {
 		double d = Math.sqrt(dX*dX + dY*dY);
 		return d;
 	}
+	
+	
+	
 	//ovo
 	@Override
 	public void draw(Graphics g) {
 		g.drawLine(x + 2, y, x - 2, y);
 		g.drawLine(x, y + 2, x, y - 2);
+		if(selected) {
+			g.drawRect(this.x - 4, this.y - 4, 8, 8);
+		}
 	}
 
 	public boolean contains(int x, int y) {

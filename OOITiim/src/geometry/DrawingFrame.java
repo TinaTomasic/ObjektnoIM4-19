@@ -13,8 +13,13 @@ import javax.swing.border.EmptyBorder;
 import javax.swing.border.LineBorder;
 
 import dialog.DlgCircle;
+import dialog.DlgCircleM;
 import dialog.DlgDonut;
+import dialog.DlgDonutM;
+import dialog.DlgLineM;
+import dialog.DlgPointM;
 import dialog.DlgRectangle;
+import dialog.DlgRectangleM;
 
 import javax.swing.ButtonGroup;
 import javax.swing.JColorChooser;
@@ -124,6 +129,146 @@ public class DrawingFrame extends JFrame {
 		buttonGroup.add(btnSelect);
 		
 		JToggleButton btnModify = new JToggleButton("Modify");
+		btnModify.addActionListener(new ActionListener() {
+			public void actionPerformed(ActionEvent e) {
+				//modify
+				if(drawingPanel.getShapes().isEmpty()) {
+					JOptionPane.showMessageDialog(null, "There are no shapes to modify. Please create a shape first.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else if(slctd.isEmpty()) {
+					JOptionPane.showMessageDialog(null, "If you want to modify a shape select it first.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else if(slctd.size() > 1) {
+					JOptionPane.showMessageDialog(null, "It is not possible to modify multiple shapes at once. Please select only one.", "ERROR", JOptionPane.ERROR_MESSAGE);
+				}else {
+					try {
+					for(Shape s : drawingPanel.getShapes()) {
+						if(s instanceof Point) {
+							if(s.isSelected()) {
+								Point temp = (Point) s;
+								Point p = new Point();
+								
+								DlgPointM dlgPointM = new DlgPointM();
+								dlgPointM.getxField().setText(Integer.toString(temp.getX()));
+								dlgPointM.getyField().setText(Integer.toString(temp.getY()));
+								dlgPointM.setVisible(true);
+								
+								if(dlgPointM.isCommited()) {
+									p.setColor(temp.getColor());
+									p.setX(Integer.parseInt(dlgPointM.getxField().getText()));
+									p.setY(Integer.parseInt(dlgPointM.getyField().getText()));
+									p.setSelected(false);
+									drawingPanel.getShapes().remove(s);
+									drawingPanel.getShapes().add(p);
+									//drawingPanel.getShapes().set(drawingPanel.getShapes().indexOf(temp), p);
+									repaint();
+									slctd.clear();
+								}
+							}
+						} else if (s instanceof Line){
+							if(s.isSelected()) {
+								Line temp = (Line) s;
+								Line l = new Line();
+								
+								DlgLineM dlgLineM = new DlgLineM();
+								dlgLineM.getSpXField().setText(Integer.toString(temp.getStartPoint().getX()));
+								dlgLineM.getSpYField().setText(Integer.toString(temp.getStartPoint().getY()));
+								dlgLineM.getEpXField().setText(Integer.toString(temp.getEndPoint().getX()));
+								dlgLineM.getEpYField().setText(Integer.toString(temp.getEndPoint().getY()));
+								dlgLineM.setVisible(true);
+								
+								if(dlgLineM.isCommited()) {
+									l.setColor(temp.getColor());
+									l.setSelected(false);
+									drawingPanel.getShapes().remove(s);
+									drawingPanel.getShapes().add(l);
+									l.setStartPoint(new Point(Integer.parseInt(dlgLineM.getSpXField().getText()), Integer.parseInt(dlgLineM.getSpYField().getText())));
+									l.setEndPoint(new Point(Integer.parseInt(dlgLineM.getEpXField().getText()), Integer.parseInt(dlgLineM.getEpYField().getText())));
+									//drawingPanel.getShapes().set(drawingPanel.getShapes().indexOf(temp), l);
+									repaint();
+									slctd.clear();
+								}
+							}
+						
+						} else if(s instanceof Rectangle) {
+							if(s.isSelected()) {
+								Rectangle temp = (Rectangle) s;
+								Rectangle r = new Rectangle();
+								
+								DlgRectangleM dlgRectangleM = new DlgRectangleM();
+								dlgRectangleM.getHeightField().setText(Integer.toString(temp.getHeight()));
+								dlgRectangleM.getWidthField().setText(Integer.toString(temp.getWidth()));
+								dlgRectangleM.getUpperXField().setText(Integer.toString(temp.getUpperLeft().getX()));
+								dlgRectangleM.getUpperYField().setText(Integer.toString(temp.getUpperLeft().getY()));
+								dlgRectangleM.setVisible(true);
+								
+								if(dlgRectangleM.isCommited()) {
+									r.setColor(temp.getColor());
+									r.setSelected(false);
+									drawingPanel.getShapes().remove(s);
+									drawingPanel.getShapes().add(r);
+									r.setHeight(Integer.parseInt(dlgRectangleM.getHeightField().getText()));
+									r.setWidth(Integer.parseInt(dlgRectangleM.getWidthField().getText()));
+									r.setUpperLeft(new Point(Integer.parseInt(dlgRectangleM.getUpperXField().getText()), Integer.parseInt(dlgRectangleM.getUpperYField().getText())));
+									//drawingPanel.getShapes().set(drawingPanel.getShapes().indexOf(temp), r);
+									repaint();
+									slctd.clear();
+								}
+							}
+						}else if(s instanceof Circle) {
+							if(s.isSelected()) {
+								if(s.getClass() != Circle.class) {
+										Donut temp = (Donut) s;
+										Donut d = new Donut();
+										
+										DlgDonutM dlgDonutM = new DlgDonutM();
+										dlgDonutM.getInRField().setText(Integer.toString(temp.getInnerR()));
+										dlgDonutM.getOutRField().setText(Integer.toString(temp.getR()));
+										dlgDonutM.getCenterXField().setText(Integer.toString(temp.getCenter().getX()));
+										dlgDonutM.getCenterYField().setText(Integer.toString(temp.getCenter().getY()));
+										dlgDonutM.setVisible(true);
+										
+										if(dlgDonutM.isCommited()) {
+											d.setColor(temp.getColor());
+											d.setSelected(false);
+											drawingPanel.getShapes().remove(s);
+											drawingPanel.getShapes().add(d);
+											d.setInnerR(Integer.parseInt(dlgDonutM.getInRField().getText()));
+											d.setR(Integer.parseInt(dlgDonutM.getOutRField().getText()));
+											d.setCenter(new Point(Integer.parseInt(dlgDonutM.getCenterXField().getText()), Integer.parseInt(dlgDonutM.getCenterYField().getText())));
+											//drawingPanel.getShapes().set(drawingPanel.getShapes().indexOf(temp), d);
+											repaint();
+											slctd.clear();
+									}
+								}else {
+									Circle temp = (Circle) s;
+									Circle c = new Circle();
+									
+									DlgCircleM dlgCircleM = new DlgCircleM();
+									dlgCircleM.getrField().setText(Integer.toString(temp.getR()));
+									dlgCircleM.getCenterXField().setText(Integer.toString(temp.getCenter().getX()));
+									dlgCircleM.getCenterYField().setText(Integer.toString(temp.getCenter().getY()));
+									dlgCircleM.setVisible(true);
+									
+									if(dlgCircleM.isCommited()) {
+										c.setColor(temp.getColor());
+										c.setSelected(false);
+										drawingPanel.getShapes().remove(s);
+										drawingPanel.getShapes().add(c);
+										c.setR(Integer.parseInt(dlgCircleM.getrField().getText()));
+										c.setCenter(new Point(Integer.parseInt(dlgCircleM.getCenterXField().getText()), Integer.parseInt(dlgCircleM.getCenterYField().getText())));
+										//drawingPanel.getShapes().set(drawingPanel.getShapes().indexOf(temp), c);
+										repaint();
+										slctd.clear();
+									}
+								}
+							}
+				
+						}}}
+				catch (Exception izuzetak){
+					
+				}
+				
+			}}});
+		
 		btnModify.setBounds(576, 490, 82, 23);
 		contentPane.add(btnModify);
 		buttonGroup.add(btnModify);
@@ -295,7 +440,7 @@ public class DrawingFrame extends JFrame {
 		this.selected = selected;
 	}
 
-
+	
 
 	public static void main(String[] args) {
 		EventQueue.invokeLater(new Runnable() {

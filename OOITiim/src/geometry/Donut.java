@@ -53,8 +53,13 @@ public class Donut extends Circle {
 	@Override
 	public void draw(Graphics g) {
 		super.draw(g);
-		g.drawOval(center.getX()-innerR, center.getY()-innerR,
-				innerR*2, innerR*2);
+		g.drawOval(super.getCenter().getX() - innerR, super.getCenter().getY() - innerR, innerR*2, innerR*2);
+		if(selected) {
+			g.drawRect(getCenter().getX() - innerR - 3, getCenter().getY() - 3, 6, 6);
+			g.drawRect(getCenter().getX() + innerR - 3, getCenter().getY() - 3, 6, 6);
+			g.drawRect(getCenter().getX() - 3, getCenter().getY() - innerR - 3, 6, 6);
+			g.drawRect(getCenter().getX() - 3, getCenter().getY() + innerR - 3, 6, 6);
+		}
 	}
 	
 	public boolean contains(Point p) {
