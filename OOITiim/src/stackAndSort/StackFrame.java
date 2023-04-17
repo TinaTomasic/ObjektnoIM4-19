@@ -53,6 +53,7 @@ public class StackFrame extends JFrame {
 	public StackFrame() {
 		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		setResizable(false);
+		setTitle("Stack and sort");
 		setBounds(100, 100, 560, 380);
 		contentPane = new JPanel();
 		contentPane.setBorder(new EmptyBorder(5, 5, 5, 5));
