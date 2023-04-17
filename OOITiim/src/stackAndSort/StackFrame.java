@@ -73,11 +73,13 @@ public class StackFrame extends JFrame {
 		JButton btnAdd = new JButton("Add Rectangle");
 		btnAdd.addActionListener(new ActionListener() {
 			public void actionPerformed(ActionEvent e) {
-				DlgRectangle dlgRect = new DlgRectangle();
+				DlgRectangleM dlgRect = new DlgRectangleM();
 				dlgRect.setVisible(true);
-				Point upperLeft = new Point();
 				int width = Integer.parseInt(dlgRect.getWidthField().getText());
 				int height = Integer.parseInt(dlgRect.getHeightField().getText());
+				int x = Integer.parseInt(dlgRect.getUpperXField().getText());
+				int y = Integer.parseInt(dlgRect.getUpperYField().getText());
+				Point upperLeft = new Point(x, y);
 				pravougaonik = new Rectangle(upperLeft, width, height);
 						
 				if(dlgRect.isCommited()) {
@@ -137,6 +139,8 @@ public class StackFrame extends JFrame {
 			        }
 			        String stackString = stack.toString();
 			        textArea.setText(stackString);
+				} else {
+					JOptionPane.showMessageDialog(null, "The stack is empty!", "ERROR", JOptionPane.ERROR_MESSAGE);
 				}
 				
 			}
